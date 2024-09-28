@@ -1,0 +1,115 @@
+definitions:
+  api.DeployStackRequest:
+    description: DeployStackRequest represents the request body for deploying a stack
+    properties:
+      directory:
+        description: |-
+          Dir is the directory where the compose and .env files are located
+          @Description Dir is the directory where the compose and .env files are located
+        type: string
+      stack_name:
+        description: |-
+          StackName is the name of the stack to deploy
+          @Description StackName is the name of the stack to deploy
+        type: string
+    required:
+    - stack_name
+    type: object
+  api.StopStackRequest:
+    description: StopStackRequest represents the request body for stopping a stack
+    properties:
+      stack_name:
+        description: |-
+          StackName is the name of the stack to stop
+          @Description StackName is the name of the stack to stop
+        type: string
+    required:
+    - stack_name
+    type: object
+info:
+  contact: {}
+  description: API Server for Swarm stack deployment
+  title: Portweiner
+  version: "1.0"
+paths:
+  /deploy:
+    post:
+      consumes:
+      - application/json
+      description: Deploy a stack using the provided stack name and directory
+      parameters:
+      - description: DeployStackRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.DeployStackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Deploy a stack
+      tags:
+      - Stack
+  /stop:
+    post:
+      consumes:
+      - application/json
+      description: Stop a stack using the provided stack name
+      parameters:
+      - description: StopStackRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.StopStackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Stop a stack
+      tags:
+      - Stack
+  /upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload a file to the specified directory, please just use name
+        of dir e.g. "dirName"
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Directory to save the file
+        in: formData
+        name: directory
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Upload a file
+      tags:
+      - File
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

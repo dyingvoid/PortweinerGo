@@ -1,0 +1,7 @@
+env: local
+username: root
+password: pass
+terminal:
+  use_sudo: false
+http_server:
+  port: 10000

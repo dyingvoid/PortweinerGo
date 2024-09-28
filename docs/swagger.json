@@ -1,0 +1,164 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Server for Swarm stack deployment",
+        "title": "Portweiner",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/deploy": {
+            "post": {
+                "description": "Deploy a stack using the provided stack name and directory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stack"
+                ],
+                "summary": "Deploy a stack",
+                "parameters": [
+                    {
+                        "description": "DeployStackRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.DeployStackRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/stop": {
+            "post": {
+                "description": "Stop a stack using the provided stack name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stack"
+                ],
+                "summary": "Stop a stack",
+                "parameters": [
+                    {
+                        "description": "StopStackRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.StopStackRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/upload": {
+            "post": {
+                "description": "Upload a file to the specified directory, please just use name of dir e.g. \"dirName\"",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Upload a file",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Directory to save the file",
+                        "name": "directory",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.DeployStackRequest": {
+            "description": "DeployStackRequest represents the request body for deploying a stack",
+            "type": "object",
+            "required": [
+                "stack_name"
+            ],
+            "properties": {
+                "directory": {
+                    "description": "Dir is the directory where the compose and .env files are located\n@Description Dir is the directory where the compose and .env files are located",
+                    "type": "string"
+                },
+                "stack_name": {
+                    "description": "StackName is the name of the stack to deploy\n@Description StackName is the name of the stack to deploy",
+                    "type": "string"
+                }
+            }
+        },
+        "api.StopStackRequest": {
+            "description": "StopStackRequest represents the request body for stopping a stack",
+            "type": "object",
+            "required": [
+                "stack_name"
+            ],
+            "properties": {
+                "stack_name": {
+                    "description": "StackName is the name of the stack to stop\n@Description StackName is the name of the stack to stop",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}
